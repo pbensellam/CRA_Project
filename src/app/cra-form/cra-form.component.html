@@ -1,0 +1,162 @@
+<div class="row" id="craForm">
+
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2" style="background-color:turquoise">
+
+      <form [formGroup]="craForm" (ngSubmit)="onSubmitForm()">
+
+        <div class="form-group">
+            <h2>Saisir mon CRA</h2>
+        </div>
+        
+        <div class="form-group">
+          <label for="month">Mois</label>
+          <select class="form-control" id="month" formControlName="month">
+            <option>Janvier</option>
+            <option>Fevrier</option>
+            <option>Mars</option>
+            <option>Avril</option>
+            <option>Mai</option>
+            <option>Juin</option>
+            <option>Juillet</option>
+            <option>Aout</option>
+            <option>Septembre</option>
+            <option>Octobre</option>
+            <option>Novembre</option>
+            <option>Decembre</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="div-company">
+          <label for="company">Nom de l'entreprise client</label>
+          <input type="text" class="form-control" id="company" formControlName="company">
+        </div>
+
+        <div class="form-group" id="div-responsible">
+          <label for="responsibleName">Votre responsable client</label>
+          <input type="text" class="form-control" id="responsibleName" formControlName="responsibleName">
+        </div>
+
+        <div class="form-group" id="div-details">
+          <label for="details">Detail de mission</label>
+          <textarea name="" class="form-control" id="details" rows="5" formControlName="details" ></textarea>
+        </div>
+
+        <div class="form-group">
+          <h3 style="color: whitesmoke">Absences</h3>
+        </div>
+
+        <div class="form-group" id="div-leaves">
+            <table class="table-responsive" id="table-leaves">
+              <tbody>
+                <tr>
+                  <td>Conges Annuels</td>
+                  <td>
+                    <input type="number" class="form-control" id="nbAnnualLeave" formControlName="nbAnnualLeave">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateBeginAnnualLeave" formControlName="dateBeginAnnualLeave">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateEndAnnualLeave" formControlName="dateEndAnnualLeave">
+                  </td>
+                </tr>
+                <tr>
+                  <td>Sans Solde</td>
+                  <td>
+                    <input type="number" class="form-control" id="nbUnpaidLeave" formControlName="nbUnpaidLeave">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateBeginUnpaidLeave" formControlName="dateBeginUnpaidLeave">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateEndUnpaidLeave" formControlName="dateEndUnpaidLeave">
+                  </td>
+                </tr>
+                <tr>
+                  <td>Maladie</td>
+                  <td>
+                    <input type="number" class="form-control" id="nbSicknessLeave" formControlName="nbSicknessLeave">
+                  </td>
+                  <td>
+                    <input type="date" style="width: auto" class="form-control" id="dateBeginSicknessLeave" formControlName="dateBeginSicknessLeave">
+                  </td>
+                  <td>
+                    <input type="date" style="width: auto" class="form-control" id="dateEndSicknessLeave" formControlName="dateEndSicknessLeave">
+                  </td>
+                </tr>
+                <tr>
+                  <td>RTT</td>
+                  <td>
+                    <input type="number" class="form-control" id="nbRTT" formControlName="nbRTT">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateBeginRTT" formControlName="dateBeginRTT">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateEndRTT" formControlName="dateEndRTT">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-group">
+            <h3 style="color: whitesmoke">Heures supplementaires</h3>
+          </div>
+
+          <div class="form-group" id="table-overtime">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td>S1</td>
+                  <td>
+                    <input type="number" class="form-control" id="overtimeW1" formControlName="overtimeW1">
+                  </td>
+                  <td>S2</td>
+                  <td>
+                    <input type="number" class="form-control" id="overtimeW2" formControlName="overtimeW2">
+                  </td>
+                </tr>
+                <tr>
+                  <td>S3</td>
+                  <td>
+                    <input type="number" class="form-control" id="overtimeW3" formControlName="overtimeW3">
+                  </td>
+                  <td>S4</td>
+                  <td>
+                    <input type="number" class="form-control" id="overtimeW4" formControlName="overtimeW4">
+                  </td>
+                  <td>S5</td>
+                  <td>
+                    <input type="number" class="form-control" id="overtimeW5" formControlName="overtimeW5">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-group" id="cra-comment">
+            <label for="craComment">Commentaires</label>
+            <textarea name="" class="form-control" id="craComment" rows="2" formControlName="craComment" ></textarea>
+          </div>
+
+          <div class="form-group" id="div-nbWorkDay">
+            <label for="nbWorkDay">Nombre de jours travailles</label>
+            <input type="text" class="form-control" id="nbWorkDay" style="width: auto" disabled>
+          </div>
+
+          <div align="left" class="form-group" id="div-name">
+            <label for="name">Votre Nom</label>
+            <input type="text" class="form-control" id="name" formControlName="name" style="width: auto">
+          </div>
+
+          <div class="form-group" id="div-email">
+            <label for="email">Votre Email</label>
+            <input type="text" class="form-control" id="email" formControlName="email" style="width: auto">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" (click)="onSubmitForm()" [disabled]="craForm.invalid" >Envoyer CRA</button>
+          </div>
+        </form>
+    </div>
+</div>
