@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\node_modules",
+    "\\node_modules\\@angular",
+    "\\node_modules\\@angular\\animations",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\edit-cra"
+  ],
+  "SelectedNode": "\\src\\app\\edit-cra\\edit-cra.component.ts",
+  "PreviewInSolutionExplorer": false
+}

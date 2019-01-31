@@ -58,13 +58,30 @@ export class CRAFormComponent implements OnInit {
         craComment : ''
     });
   }
+  downloadFormToPDFasHTML(){
+    // Doesn't work !
+    const formValue = this.craForm.value;
+    const input = document.getElementById('craForm');
+    const docPDF = new jsPDF('p','mm','a4');
+    docPDF.addHTML(input,function(){
+      docPDF.save('FileWithaddHTML.pdf');
+    });
+   /*  html2canvas(input).then(
+      (canvas) => {
+        const docPDF = new jsPDF('p', 'mm', 'a4');
+        docPDF.addHTML(input.)
+      }).catch((err) => {
+        console.log(err); 
+      }); */
+      
+  }
 
   dowloadFormToPDFasText() {
     const formValue = this.craForm.value;
 
     const title = 'CRA ' + formValue['month'] + ' ' + formValue['name'];
     const responsibleName = 'Responsable client: ' + formValue['responsibleName'];
-    const details = 'Détail Mission: ' + formValue['details'];
+    // const details = 'Détail Mission: ' + formValue['details'];
     const annualLeave = 'Congés Annuels: ' + formValue['nbAnnualLeave']
                           + ' du ' + formValue['dateBeginAnnualLeave'] + ' au ' + formValue['dateEndAnnualLeave'];
     const sicknessLeave = 'Congés Maladie: ' + formValue['nbSicknessLeave']
@@ -84,7 +101,19 @@ export class CRAFormComponent implements OnInit {
     const docPDF = new jsPDF('p', 'mm', 'a4');
     docPDF.text(title, 50, 20, '');
     docPDF.text(responsibleName, 20, 30);
-    docPDF.text(details, 20, 40);
+    docPDF.text('Détail Mission:',20,40);
+    docPDF.setFontSize(9);
+    docPDF.text(formValue['details'],20,45);
+    let details = formValue['details'];
+    if (details.length > 170){
+      
+    }
+    console.log ('nombre de ligne dans détail: ' + 
+        (formValue['details'].split(/\r\n|\r|\n/).length));
+    docPDF.text(formValue['details'],20,45);
+    
+    /* console.log ('nombre de ligne dans détail: ' + 
+        (formValue['details'].match(/\r?\n/g) || '').length + 1); */
    // docPDF.table(15, 100, [overtimeW1,overtimeW2, overtimeW3], ['Heures supplémentaires'], );
     docPDF.save('PDF_file.pdf');
   }
@@ -98,14 +127,14 @@ export class CRAFormComponent implements OnInit {
           const imgHeight = canvas.height * imgWidth / canvas.width;
           let heightLeft = imgHeight;
           let position = 0;
-// cr�er le document pdf
+// creer le document pdf
           const doc = new jsPDF('p', 'mm');
 // Cast le contenur HTML du la div craFrom en image
           const imgData = canvas.toDataURL('image/png');
 // ajoute l'image au document pdf
           doc.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
-// Pour gerer le d�passement de page:
+// Pour gerer le depassement de page:
           while (heightLeft >= 0) {
             position = heightLeft - imgHeight;
             doc.addPage();
