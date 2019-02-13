@@ -10,7 +10,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 import { CraService } from './Service/cra.service';
-import * as jsPDF from 'jspdf';
+import { MailService } from './Service/mail.service';
 
 const appRoutes: Routes = [
   {path : 'app-cra-form', component: CRAFormComponent},
@@ -31,9 +31,9 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
-  providers: [CraService],
+  providers: [CraService,MailService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

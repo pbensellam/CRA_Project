@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CRA } from '../Model/cra.model';
+
 import * as firebase from 'firebase';
 
 @Injectable({
@@ -20,6 +21,7 @@ export class CraService {
 
     saveCRA() {
       firebase.database().ref('/cra').set(this.allCra);
+
      /*  ('/cra').set(this.allCra);
       this.httpClient
         .post('https://cra-app-xlm.firebaseio.com/cra.json', this.allCra)
@@ -66,6 +68,7 @@ export class CraService {
 
       this.saveCRA();
       this.emitCra();
+
     }
 
     deleteCRA(cra: CRA) {

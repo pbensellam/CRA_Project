@@ -46,7 +46,7 @@
         </div>
 
         <div class="form-group" id="div-leaves">
-            <table class="table-responsive" id="table-leaves">
+            <table class="table" id="table-leaves">
               <tbody>
                 <tr>
                   <td>Conges Annuels</td>
@@ -99,11 +99,9 @@
               </tbody>
             </table>
           </div>
-
           <div class="form-group">
-            <h3 style="color: whitesmoke">Heures supplementaires</h3>
+              <h3 style="color: whitesmoke">Heures supplementaires</h3>
           </div>
-
           <div class="form-group" id="table-overtime">
             <table class="table">
               <tbody>
@@ -139,20 +137,17 @@
             <label for="craComment">Commentaires</label>
             <textarea name="" class="form-control" id="craComment" rows="2" formControlName="craComment" ></textarea>
           </div>
-
           <div class="form-group" id="div-nbWorkDay">
             <label for="nbWorkDay">Nombre de jours travailles</label>
-            <input type="text" class="form-control" id="nbWorkDay" style="width: auto" disabled>
+            <input type="text" class="form-control" id="nbWorkDay" style="width: auto">
           </div>
-
-          <div align="left" class="form-group" id="div-name">
-            <label for="name">Votre Nom</label>
-            <input type="text" class="form-control" id="name" formControlName="name" style="width: auto">
+          <div class="form-group">
+              <label for="name">Votre Nom</label>
+              <input type="text" class="form-control" id="name" formControlName="name" style="width: auto">
           </div>
-
-          <div class="form-group" id="div-email">
-            <label for="email">Votre Email</label>
-            <input type="text" class="form-control" id="email" formControlName="email" style="width: auto">
+          <div class="form-group">
+              <label for="email">Votre Email</label>
+              <input type="email" class="form-control" id="email" formControlName="email" style="width: auto">
           </div>
           <div class="form-group">
             <button type="submit" class="btn btn-success" (click)="onSubmitForm()" [disabled]="craForm.invalid" >Envoyer CRA</button>
