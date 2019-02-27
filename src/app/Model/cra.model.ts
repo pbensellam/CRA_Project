@@ -2,10 +2,12 @@ import { WeekDay } from '@angular/common';
 
 // tslint:disable-next-line:class-name
 export class CRA {
+    pdfFile: string;
     constructor(
         public month: string,
         public name: string,
         public responsibleName: string,
+        public responsibleEmail : string,
         public email: string,
         public details: string,
         public nbAnnualLeave: number,

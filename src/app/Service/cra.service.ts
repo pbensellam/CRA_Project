@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CRA } from '../Model/cra.model';
-
+import * as jsPDF from 'jspdf';
 import * as firebase from 'firebase';
 
 @Injectable({
@@ -12,11 +12,13 @@ export class CraService {
     private allCra: CRA[] = [];
     craSubject = new Subject<CRA[]>();
 
-    constructor() { }
+    constructor(){ 
+      this.getAllCRA();
+    }
 
     emitCra() {
       /* recupere l'object allCra et l'emet a travers le subject craSubjet */
-      this.craSubject.next(this.allCra.slice());
+      this.craSubject.next(this.allCra);
     }
 
     saveCRA() {
@@ -60,15 +62,8 @@ export class CraService {
 
     createNewCRA(cra: CRA) {
       this.allCra.push(cra);
-      // console.log('nouveau cra creee pour ' + cra.name);
-      // console.log('Liste des CRA dans l array local:');
-      // this.allCra.forEach(element => {
-      //    console.log('CRA de :' + element.name);
-      // });
-
       this.saveCRA();
       this.emitCra();
-
     }
 
     deleteCRA(cra: CRA) {
@@ -82,5 +77,61 @@ export class CraService {
       this.allCra.splice(indexCra, 1);
       this.saveCRA();
       this.emitCra();
+    }
+
+    uploadPdfFile(docPdf: Blob, fileName: string){
+      /*
+      const upload = firebase.storage().ref()
+        .child('CRA-PDF/' + Date.now() + 'CRA-PDF.pdf')
+        .put(docPdf);
+
+      console.log(upload.snapshot.downloadURL);
+      return upload.snapshot.downloadURL;
+    }*/
+      return new Promise(
+        (resolve, reject) =>{
+          const date = Date.now().toString();
+          const upload = firebase.storage().ref()
+            .child('CRA-PDF/'+ Date.now() + fileName)
+            .put(docPdf);
+          upload.snapshot.downloadURL
+          upload.on(firebase.storage.TaskEvent.STATE_CHANGED,
+            ()=>{
+              console.log('Chargement en cours....');
+            },
+            (error)=>{
+              console.log('Erreur du chargement!' + error);
+              reject();
+            },
+            ()=>{
+                console.log('Chargement terminé :)' + upload.snapshot.ref.getDownloadURL());
+          resolve(upload.snapshot.ref.getDownloadURL());
+            }
+          );
+        }
+      );
+    }
+
+    uploadFile(file: File){
+      return new Promise(
+        (resolve, reject) =>{
+          const date = Date.now().toString();
+          const upload = firebase.storage().ref()
+            .child('files/'+ date + file.name)
+            .put(file);
+          upload.on(firebase.storage.TaskEvent.STATE_CHANGED,
+            ()=>{
+              console.log('Chargement en cours....');
+            },
+            (error)=>{
+              console.log('Erreur du chargement!' + error);
+              reject();
+            },
+            ()=>{
+                resolve(upload.snapshot.downloadURL);
+            }
+          );
+        }
+      );
     }
 }

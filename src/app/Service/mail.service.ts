@@ -22,6 +22,7 @@ export class MailService {
         this.emitMail;
     }
     addMail(mail:Mail){
+        
         return new Promise(
             (resolve, reject ) =>{
                 firebase.database().ref('/mail').set(mail).then(

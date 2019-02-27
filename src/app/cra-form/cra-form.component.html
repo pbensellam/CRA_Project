@@ -1,15 +1,15 @@
 <div class="row" id="craForm">
 
-    <div class="col-xs-12 col-sm-8 col-sm-offset-2" style="background-color:turquoise">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2" style="background-color:rgb(57, 134, 131)">
 
-      <form [formGroup]="craForm" (ngSubmit)="onSubmitForm()">
+      <form [formGroup]="craForm">
 
         <div class="form-group">
-            <h2>Saisir mon CRA</h2>
+            <h2 style="color:whitesmoke">Saisir mon CRA</h2>
         </div>
         
         <div class="form-group">
-          <label for="month">Mois</label>
+          <label for="month" style="color:whitesmoke">Mois</label>
           <select class="form-control" id="month" formControlName="month">
             <option>Janvier</option>
             <option>Fevrier</option>
@@ -27,131 +27,145 @@
         </div>
 
         <div class="form-group" id="div-company">
-          <label for="company">Nom de l'entreprise client</label>
+          <label for="company" style="color:whitesmoke">Nom de l'entreprise client</label>
           <input type="text" class="form-control" id="company" formControlName="company">
-        </div>
-
-        <div class="form-group" id="div-responsible">
-          <label for="responsibleName">Votre responsable client</label>
+          <label for="responsibleName" style="color:whitesmoke">Votre responsable client</label>
           <input type="text" class="form-control" id="responsibleName" formControlName="responsibleName">
+          <label for="responsibleEmail" style="color:whitesmoke">Email du responsable</label>
+          <input type="text" class="form-control" id="responsibleEmail" formControlName="responsibleEmail">
         </div>
 
         <div class="form-group" id="div-details">
-          <label for="details">Detail de mission</label>
+          <label for="details" style="color:whitesmoke">Detail de mission</label>
           <textarea name="" class="form-control" id="details" rows="5" formControlName="details" ></textarea>
         </div>
 
-        <div class="form-group">
-          <h3 style="color: whitesmoke">Absences</h3>
+        <div class="form-group" id="div-leaves">
+          <div class="table">
+            <table class="form-group" id="table-leaves">
+              <tbody class="form-group">
+                <tr>
+                  <h4 style="color:whitesmoke" >Conges Annuels</h4>
+                </tr>
+                <tr> 
+                  <td>
+                    <input type="number" class="form-control" id="nbAnnualLeave" formControlName="nbAnnualLeave" style="width: 80px">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="date" class="form-control" id="dateBeginAnnualLeave" formControlName="dateBeginAnnualLeave"style="width: 150px">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateEndAnnualLeave" formControlName="dateEndAnnualLeave" style="width: 150px">
+                  </td>
+                </tr>
+                <tr>
+                  <h4 style="color:whitesmoke">Sans Solde</h4>
+                </tr>
+                <tr>
+                    <input type="number" class="form-control" id="nbUnpaidLeave" formControlName="nbUnpaidLeave" style="width: 80px">
+                </tr>
+                <tr>
+                  <td>
+                    <input type="date" class="form-control" id="dateBeginUnpaidLeave" formControlName="dateBeginUnpaidLeave" style="width: 150px">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateEndUnpaidLeave" formControlName="dateEndUnpaidLeave" style="width: 150px">
+                  </td>
+                </tr>
+                <tr>
+                  <h4 style="color:whitesmoke">Maladie</h4>
+                </tr>
+                <tr>
+                    <input type="number" class="form-control" id="nbSicknessLeave" formControlName="nbSicknessLeave" style="width: 80px">
+                </tr>
+                <tr>
+                  <td>
+                    <input type="date" style="width: auto" class="form-control" id="dateBeginSicknessLeave" formControlName="dateBeginSicknessLeave" style="width: 150px">
+                  </td>
+                  <td>
+                    <input type="date" style="width: auto" class="form-control" id="dateEndSicknessLeave" formControlName="dateEndSicknessLeave" style="width: 150px">
+                  </td>
+                </tr>
+                <tr>
+                  <h4 style="color:whitesmoke">RTT</h4>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="number" class="form-control" id="nbRTT" formControlName="nbRTT" style="width: 80px">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="date" class="form-control" id="dateBeginRTT" formControlName="dateBeginRTT" style="width: 150px">
+                  </td>
+                  <td>
+                    <input type="date" class="form-control" id="dateEndRTT" formControlName="dateEndRTT" style="width: 150px">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div class="form-group" id="div-leaves">
-            <table class="table" id="table-leaves">
-              <tbody>
-                <tr>
-                  <td>Conges Annuels</td>
+        <div class="form-group">
+            <h3 style="color: whitesmoke">Heures supplementaires</h3>
+        </div>
+        <div class="form-group" id="table-overtime">
+          <table class="table">
+            <tbody>
+              <tr>
+                    <td><h4 style="color:whitesmoke">S1</h4></td>
                   <td>
-                    <input type="number" class="form-control" id="nbAnnualLeave" formControlName="nbAnnualLeave">
+                    <input type="number" class="form-control" id="overtimeW1" 
+                    formControlName="overtimeW1" style="width:80px">
                   </td>
+                  <td><h4 style="color:whitesmoke">S2</h4></td>
                   <td>
-                    <input type="date" class="form-control" id="dateBeginAnnualLeave" formControlName="dateBeginAnnualLeave">
+                    <input type="number" class="form-control" id="overtimeW2" 
+                    formControlName="overtimeW2" style="width:80px">
                   </td>
+              </tr>
+              <tr>
+                  <td><h4 style="color:whitesmoke">S3</h4></td>
                   <td>
-                    <input type="date" class="form-control" id="dateEndAnnualLeave" formControlName="dateEndAnnualLeave">
+                    <input type="number" class="form-control" id="overtimeW3" 
+                    formControlName="overtimeW3" style="width:80px">
                   </td>
-                </tr>
-                <tr>
-                  <td>Sans Solde</td>
+                  <td><h4 style="color:whitesmoke">S4</h4></td>
                   <td>
-                    <input type="number" class="form-control" id="nbUnpaidLeave" formControlName="nbUnpaidLeave">
+                    <input type="number" class="form-control" id="overtimeW4"
+                    formControlName="overtimeW4" style="width:80px">
                   </td>
+                  <td><h4 style="color:whitesmoke">S5</h4></td>
                   <td>
-                    <input type="date" class="form-control" id="dateBeginUnpaidLeave" formControlName="dateBeginUnpaidLeave">
+                    <input type="number" class="form-control" id="overtimeW5" 
+                    formControlName="overtimeW5" style="width:80px">
                   </td>
-                  <td>
-                    <input type="date" class="form-control" id="dateEndUnpaidLeave" formControlName="dateEndUnpaidLeave">
-                  </td>
-                </tr>
-                <tr>
-                  <td>Maladie</td>
-                  <td>
-                    <input type="number" class="form-control" id="nbSicknessLeave" formControlName="nbSicknessLeave">
-                  </td>
-                  <td>
-                    <input type="date" style="width: auto" class="form-control" id="dateBeginSicknessLeave" formControlName="dateBeginSicknessLeave">
-                  </td>
-                  <td>
-                    <input type="date" style="width: auto" class="form-control" id="dateEndSicknessLeave" formControlName="dateEndSicknessLeave">
-                  </td>
-                </tr>
-                <tr>
-                  <td>RTT</td>
-                  <td>
-                    <input type="number" class="form-control" id="nbRTT" formControlName="nbRTT">
-                  </td>
-                  <td>
-                    <input type="date" class="form-control" id="dateBeginRTT" formControlName="dateBeginRTT">
-                  </td>
-                  <td>
-                    <input type="date" class="form-control" id="dateEndRTT" formControlName="dateEndRTT">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="form-group">
-              <h3 style="color: whitesmoke">Heures supplementaires</h3>
-          </div>
-          <div class="form-group" id="table-overtime">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td>S1</td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW1" formControlName="overtimeW1">
-                  </td>
-                  <td>S2</td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW2" formControlName="overtimeW2">
-                  </td>
-                </tr>
-                <tr>
-                  <td>S3</td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW3" formControlName="overtimeW3">
-                  </td>
-                  <td>S4</td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW4" formControlName="overtimeW4">
-                  </td>
-                  <td>S5</td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW5" formControlName="overtimeW5">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="form-group" id="cra-comment">
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="form-group" id="cra-comment">
             <label for="craComment">Commentaires</label>
             <textarea name="" class="form-control" id="craComment" rows="2" formControlName="craComment" ></textarea>
-          </div>
-          <div class="form-group" id="div-nbWorkDay">
+        </div>
+        <div class="form-group" id="div-nbWorkDay">
             <label for="nbWorkDay">Nombre de jours travailles</label>
-            <input type="text" class="form-control" id="nbWorkDay" style="width: auto">
-          </div>
-          <div class="form-group">
-              <label for="name">Votre Nom</label>
+            <input type="number" class="form-control" id="nbWorkDay" style="width: 80px">
+        </div>
+        <div class="form-group">
+              <label for="name">Votre Nom</label> 
               <input type="text" class="form-control" id="name" formControlName="name" style="width: auto">
-          </div>
-          <div class="form-group">
+        </div>
+        <div class="form-group">
               <label for="email">Votre Email</label>
               <input type="email" class="form-control" id="email" formControlName="email" style="width: auto">
-          </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-success" (click)="onSubmitForm()" [disabled]="craForm.invalid" >Envoyer CRA</button>
-          </div>
-        </form>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success" (click)="dowloadFormToPDFasText()" [disabled]="craForm.invalid" >Envoyer CRA</button>
+        </div>
+      </form>
     </div>
 </div>

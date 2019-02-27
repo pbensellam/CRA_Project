@@ -8,8 +8,6 @@ const routes: Routes = [
   {path: '**', redirectTo: 'app-route'}
 ];
 
-
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
