@@ -1,171 +1,482 @@
 <div class="row" id="craForm">
 
-    <div class="col-xs-12 col-sm-8 col-sm-offset-2" style="background-color:rgb(57, 134, 131)">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8" 
+        style="background-color:whitesmoke">
 
-      <form [formGroup]="craForm">
+      <form [formGroup]="craForm" style="font-family:Lato;">
 
         <div class="form-group">
-            <h2 style="color:whitesmoke">Saisir mon CRA</h2>
+            <h2>Saisir mon CRA {{ month }} </h2>
         </div>
-        
-        <div class="form-group">
-          <label for="month" style="color:whitesmoke">Mois</label>
-          <select class="form-control" id="month" formControlName="month">
-            <option>Janvier</option>
-            <option>Fevrier</option>
-            <option>Mars</option>
-            <option>Avril</option>
-            <option>Mai</option>
-            <option>Juin</option>
-            <option>Juillet</option>
-            <option>Aout</option>
-            <option>Septembre</option>
-            <option>Octobre</option>
-            <option>Novembre</option>
-            <option>Decembre</option>
-          </select>
+
+        <div *ngIf="month === ''">
+            <label for="month" >Selectionner le Mois</label>
+            <input type="text" class="form-control" id="month" formControlName="month">          
         </div>
 
         <div class="form-group" id="div-company">
-          <label for="company" style="color:whitesmoke">Nom de l'entreprise client</label>
+          <label for="company" >Nom de l'entreprise client</label>
           <input type="text" class="form-control" id="company" formControlName="company">
-          <label for="responsibleName" style="color:whitesmoke">Votre responsable client</label>
+
+          <label for="responsibleName" >Votre responsable client</label>
           <input type="text" class="form-control" id="responsibleName" formControlName="responsibleName">
-          <label for="responsibleEmail" style="color:whitesmoke">Email du responsable</label>
+
+          <div *ngIf="craForm.controls.responsibleName.invalid && (craForm.controls.responsibleName.dirty || craForm.controls.responsibleName.touched)" 
+                class="alert alert-danger">
+            <div *ngIf="craForm.controls.responsibleName.errors.required">
+                Champs Obligatoire
+            </div>
+          </div>
+          <label for="responsibleEmail" >Email du responsable</label>
           <input type="text" class="form-control" id="responsibleEmail" formControlName="responsibleEmail">
         </div>
-
+        
         <div class="form-group" id="div-details">
-          <label for="details" style="color:whitesmoke">Detail de mission</label>
+          <label for="details" >Detail de mission</label>
           <textarea name="" class="form-control" id="details" rows="5" formControlName="details" ></textarea>
         </div>
 
-        <div class="form-group" id="div-leaves">
-          <div class="table">
-            <table class="form-group" id="table-leaves">
-              <tbody class="form-group">
-                <tr>
-                  <h4 style="color:whitesmoke" >Conges Annuels</h4>
-                </tr>
-                <tr> 
-                  <td>
-                    <input type="number" class="form-control" id="nbAnnualLeave" formControlName="nbAnnualLeave" style="width: 80px">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="date" class="form-control" id="dateBeginAnnualLeave" formControlName="dateBeginAnnualLeave"style="width: 150px">
-                  </td>
-                  <td>
-                    <input type="date" class="form-control" id="dateEndAnnualLeave" formControlName="dateEndAnnualLeave" style="width: 150px">
-                  </td>
-                </tr>
-                <tr>
-                  <h4 style="color:whitesmoke">Sans Solde</h4>
-                </tr>
-                <tr>
-                    <input type="number" class="form-control" id="nbUnpaidLeave" formControlName="nbUnpaidLeave" style="width: 80px">
-                </tr>
-                <tr>
-                  <td>
-                    <input type="date" class="form-control" id="dateBeginUnpaidLeave" formControlName="dateBeginUnpaidLeave" style="width: 150px">
-                  </td>
-                  <td>
-                    <input type="date" class="form-control" id="dateEndUnpaidLeave" formControlName="dateEndUnpaidLeave" style="width: 150px">
-                  </td>
-                </tr>
-                <tr>
-                  <h4 style="color:whitesmoke">Maladie</h4>
-                </tr>
-                <tr>
-                    <input type="number" class="form-control" id="nbSicknessLeave" formControlName="nbSicknessLeave" style="width: 80px">
-                </tr>
-                <tr>
-                  <td>
-                    <input type="date" style="width: auto" class="form-control" id="dateBeginSicknessLeave" formControlName="dateBeginSicknessLeave" style="width: 150px">
-                  </td>
-                  <td>
-                    <input type="date" style="width: auto" class="form-control" id="dateEndSicknessLeave" formControlName="dateEndSicknessLeave" style="width: 150px">
-                  </td>
-                </tr>
-                <tr>
-                  <h4 style="color:whitesmoke">RTT</h4>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="number" class="form-control" id="nbRTT" formControlName="nbRTT" style="width: 80px">
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <input type="date" class="form-control" id="dateBeginRTT" formControlName="dateBeginRTT" style="width: 150px">
-                  </td>
-                  <td>
-                    <input type="date" class="form-control" id="dateEndRTT" formControlName="dateEndRTT" style="width: 150px">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <br>
+
+        <div class="form-group row">
+              <div class="col-xs-5 col-sm-4 col-md-4 col-mb-4">
+                <h4>Congés :</h4>
+              </div>              
+              <div class="col-xs-3 col-sm-3 col-md-2 col-mb-2">
+                <input class="form-control" type="number" 
+                      id="nbAL" 
+                      [(ngModel)]="nbAnnualLeaves"
+                      [ngModelOptions]="{standalone: true}"
+                      disabled>
+              </div>
+        </div>
+
+        <div *ngFor="let annualLeave of annualLeaves">
+            <div class="form-group row">
+                <div class="col-xs-8 col-sm-4">
+                    <label for="annualLeave.dateEnd">Debut :</label>
+                    <input class="form-control" type="date"
+                        [(ngModel)]="annualLeave.dateBegin"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-8 col-sm-4">
+                    <label for="annualLeave.dateEnd">Fin :</label>
+                    <input class="form-control" type="date" 
+                        [(ngModel)]="annualLeave.dateEnd"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <label for="annualLeave.nbDay">Nombre de jours:</label>
+                    <input class="form-control" type="number"
+                        pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                        [(ngModel)]="annualLeave.nbDay"
+                        [ngModelOptions]="{standalone: true}"
+                        (ngModelChange) = "countTotalAnnualLeaves()">
+                    <div *ngIf="annualLeave.nbDay < 0" 
+                        class="text-danger">
+                            Nombre de jour invalide
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <div class="col-md-1 col-mb-9">
+              <button type="button" 
+                      class="btn btn-success" (click)="addAnnualLeave()"
+                      style="width: 40px">
+                      +
+              </button>
+            </div>
+            <div class="col-md-10 col-mb-10">
+              <button *ngIf="nbAnnualLeaves > 0" 
+                    type="button" 
+                    class="btn btn-danger" (click)="removeAnnualLeave()"
+                    style="width: 40px">
+                        -
+              </button>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-xs-5 col-sm-4 col-md-4 col-mb-4">
+              <h4>Conges Sans Solde :</h4>
+            </div>              
+            <div class="col-xs-3 col-sm-3 col-md-2 col-mb-2">
+              <input class="form-control" type="number" 
+                    id="nbCSS" 
+                    [(ngModel)]="nbUnpaidLeaves"
+                    [ngModelOptions]="{standalone: true}"
+                    disabled>
+            </div>
+        </div>
+
+        <br>
+
+        <div *ngFor="let unpaidLeave of unpaidLeaves">
+            <div class="form-group row">
+                <div class="col-xs-8 col-sm-4">
+                    <label for="unpaidLeave.dateEnd">Debut :</label>
+                    <input class="form-control" type="date"
+                        [(ngModel)]="unpaidLeave.dateBegin"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-8 col-sm-4">
+                    <label for="unpaidLeave.dateEnd">Fin :</label>
+                    <input class="form-control" type="date" 
+                        [(ngModel)]="unpaidLeave.dateEnd"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <label for="unpaidLeave.nbDay">Nombre de jours:</label>
+                    <input class="form-control" type="number"
+                        pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                        [(ngModel)]="unpaidLeave.nbDay"
+                        [ngModelOptions]="{standalone: true}"
+                        (ngModelChange) = "countTotalUnpaidLeaves()">
+                    <div *ngIf="unpaidLeave.nbDay < 0" 
+                        class="text-danger">
+                            Nombre de jour invalide
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group row">
+            <div class="col-md-1 col-mb-9">
+              <button type="button" 
+                      class="btn btn-success" (click)="addUnpaidLeave()"
+                      style="width: 40px">
+                      +
+              </button>
+            </div>
+            <div class="col-md-10 col-mb-10">
+              <button *ngIf="nbUnpaidLeaves > 0" 
+                    type="button" 
+                    class="btn btn-danger" (click)="removeUnpaidLeave()"
+                    style="width: 40px">
+                        -
+              </button>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="form-group row">
+            <div class="col-xs-5 col-sm-4 col-md-4 col-mb-4">
+              <h4>Congés Maladie :</h4>
+            </div>              
+            <div class="col-xs-3 col-sm-3 col-md-2 col-mb-2">
+              <input class="form-control" type="number" 
+                    [(ngModel)]="nbSicknessLeaves"
+                    [ngModelOptions]="{standalone: true}"
+                    disabled>
+            </div>
+        </div>
+
+        <div *ngFor="let sickenessLeave of sickenessLeaves">
+            <div class="form-group row">
+                <div class="col-xs-8 col-sm-4">
+                    <label for="sickenessLeave.dateEnd">Debut :</label>
+                    <input class="form-control" type="date"
+                        [(ngModel)]="sickenessLeave.dateBegin"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-8 col-sm-4">
+                    <label for="sickenessLeave.dateEnd">Fin :</label>
+                    <input class="form-control" type="date" 
+                        [(ngModel)]="sickenessLeave.dateEnd"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <label for="sickenessLeave.nbDay">Nombre de jours:</label>
+                    <input class="form-control" type="number"
+                        pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                        [(ngModel)]="sickenessLeave.nbDay"
+                        [ngModelOptions]="{standalone: true}"
+                        (ngModelChange) = "countTotalSickenessLeaves()">
+                    <div *ngIf="sickenessLeave.nbDay < 0" 
+                        class="text-danger">
+                            Nombre de jour invalide
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-1 col-mb-9">
+            <button type="button" 
+                    class="btn btn-success" (click)="addSickenessLeave()"
+                    style="width: 40px">
+                    +
+            </button>
+          </div>
+          <div class="col-md-10 col-mb-10">
+            <button *ngIf="nbSicknessLeaves > 0" 
+                  type="button" 
+                  class="btn btn-danger" (click)="removeSickenessLeave()"
+                  style="width: 40px">
+                      -
+            </button>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group row">
+          <div class="col-xs-5 col-sm-4 col-md-4 col-mb-4">
+            <h4>RTT :</h4>
+          </div>              
+          <div class="col-xs-3 col-sm-3 col-md-2 col-mb-2">
+            <input class="form-control" type="number" 
+                  id="rtt" 
+                  [(ngModel)]="nbRttLeaves"
+                  [ngModelOptions]="{standalone: true}"
+                  disabled>
+          </div>
+        </div>
+
+        <div *ngFor="let rttLeave of rttLeaves">
+            <div class="form-group row">
+                <div class="col-xs-8 col-sm-4">
+                    <label for="rttLeave.dateEnd">Debut :</label>
+                    <input class="form-control" type="date"
+                        [(ngModel)]="rttLeave.dateBegin"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-8 col-sm-4">
+                    <label for="rttLeave.dateEnd">Fin :</label>
+                    <input class="form-control" type="date" 
+                        [(ngModel)]="rttLeave.dateEnd"
+                        [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                    <label for="rttLeave.nbDay">Nombre de jours:</label>
+                    <input class="form-control" type="number"
+                        pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                        [(ngModel)]="rttLeave.nbDay"
+                        [ngModelOptions]="{standalone: true}"
+                        (ngModelChange) = "countTotalRTTLeaves()">
+                    <div *ngIf="rttLeave.nbDay < 0" 
+                        class="text-danger">
+                            Nombre de jour invalide
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-1 col-mb-9">
+              <button type="button" 
+                      class="btn btn-success" (click)="addRttLeave()"
+                      style="width: 40px">
+                      +
+              </button>
+            </div>
+            <div class="col-md-10 col-mb-10">
+              <button *ngIf="nbRttLeaves > 0" 
+                    type="button" 
+                    class="btn btn-danger" (click)="removeRTTLeave()"
+                    style="width: 40px">
+                        -
+              </button>
+            </div>
+        </div>
+       
+        <br>
+
+        <form [formGroup]="semaineForm" style="font-family:Lato;">
+          <div class="form-group">
+                <h3>Heures supplémentaires</h3>
+                <p class="text-warning">Non contractuelles et ayant fait l’objet d’une approbation préalable </p>
+          </div>
+          <div *ngIf="nbOverTime > 0">
+            <div class="row">
+              <div class="col-sm-5 col-md-4 col-mb-4">
+                  <label for="weekNum1">Numero de la semaine:</label>
+              </div>
+              <div class="col-sm-2 col-md-2 col-mb-2">
+                  <select class="form-control" id="weekNum1" formControlName="weekNum1">
+                    <option *ngFor="let item of arrayOne(52); let i = index;">{{i+1}} </option>
+                  </select>
+              </div>
+              <div class="col-sm-5 col-md-4 col-mb-4">
+                  <label for="overtime1">Nombre d'heures:</label>
+              </div>
+              <div class="col-sm-2 col-md-2 col-mb-2">
+                  <input type="number" class="form-control" id="overtime1"
+                        formControlName="overtime1"
+                        pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?">
+                  <div *ngIf="semaineForm.controls.overtime1.invalid 
+                        && (semaineForm.controls.overtime1.dirty || semaineForm.controls.overtime1.touched)" 
+                        class="text-danger">
+                            Nombre invalide
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="nbOverTime > 1">
+              <div class="row">
+                <div class="col-sm-5 col-md-4 col-mb-4">
+                    <label for="weekNum2">Numero de la semaine:</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-mb-2">
+                    <select class="form-control" id="weekNum2" formControlName="weekNum2">
+                      <option *ngFor="let item of arrayOne(52); let i = index;">{{i+1}} </option>
+                    </select>
+                </div>
+                <div class="col-sm-5 col-md-4 col-mb-4">
+                    <label for="overtime2">Nombre de jour:</label>
+                </div>
+                <div class="col-sm-2 col-md-2 col-mb-2">
+                    <input type="number" class="form-control" id="overtime2"
+                          formControlName="overtime2"
+                          pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?">
+                    <div *ngIf="semaineForm.controls.overtime2.invalid 
+                          && (semaineForm.controls.overtime2.dirty || semaineForm.controls.overtime2.touched)" 
+                          class="text-danger">
+                              Nombre de jour invalide
+                    </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="nbOverTime > 2">
+                <div class="row">
+                  <div class="col-sm-5 col-md-4 col-mb-4">
+                      <label for="weekNum3">Numero de la semaine:</label>
+                  </div>
+                  <div class="col-sm-2 col-md-2 col-mb-2">
+                      <select class="form-control" id="weekNum1" formControlName="weekNum1">
+                        <option *ngFor="let item of arrayOne(52); let i = index;">{{i+1}} </option>
+                      </select>
+                  </div>
+                  <div class="col-sm-5 col-md-4 col-mb-4">
+                      <label for="overtime3">Nombre de jour:</label>
+                  </div>
+                  <div class="col-sm-2 col-md-2 col-mb-2">
+                      <input type="number" class="form-control" id="overtime3"
+                            formControlName="overtime3"
+                            pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?">
+                      <div *ngIf="semaineForm.controls.overtime3.invalid 
+                            && (semaineForm.controls.overtime3.dirty || semaineForm.controls.overtime3.touched)" 
+                            class="text-danger">
+                                Nombre de jour invalide
+                      </div>
+                  </div>
+                </div>
+            </div>
+
+              <div *ngIf="nbOverTime > 3">
+                  <div class="row">
+                    <div class="col-sm-5 col-md-4 col-mb-4">
+                        <label for="weekNum4">Numero de la semaine:</label>
+                    </div>
+                    <div class="col-sm-2 col-md-2 col-mb-2">
+                        <select class="form-control" id="weekNum4" formControlName="weekNum4">
+                          <option *ngFor="let item of arrayOne(52); let i = index;">{{i+1}} </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-5 col-md-4 col-mb-4">
+                        <label for="overtime4">Nombre de jour:</label>
+                    </div>
+                    <div class="col-sm-2 col-md-2 col-mb-2">
+                        <input type="number" class="form-control" id="overtime4"
+                              formControlName="overtime4"
+                              pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?">
+                        <div *ngIf="semaineForm.controls.overtime4.invalid 
+                              && (semaineForm.controls.overtime4.dirty || semaineForm.controls.overtime4.touched)" 
+                              class="text-danger">
+                                  Nombre de jour invalide
+                        </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div *ngIf="nbOverTime > 4">
+                  <div class="row">
+                    <div class="col-sm-5 col-md-4 col-mb-4">
+                        <label for="weekNum5">Numero de la semaine:</label>
+                    </div>
+                    <div class="col-sm-2 col-md-2 col-mb-2">
+                        <select class="form-control" id="weekNum5" formControlName="weekNum5">
+                          <option *ngFor="let item of arrayOne(52); let i = index;">{{i+1}} </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-5 col-md-4 col-mb-4">
+                        <label for="overtime5">Nombre de jour:</label>
+                    </div>
+                    <div class="col-sm-2 col-md-2 col-mb-2">
+                        <input type="number" class="form-control" id="overtime5"
+                              formControlName="overtime5"
+                              pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?">
+                        <div *ngIf="semaineForm.controls.overtime5.invalid 
+                              && (semaineForm.controls.overtime5.dirty || semaineForm.controls.overtime5.touched)" 
+                              class="text-danger">
+                                  Nombre de jour invalide
+                        </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group">
+                  <button *ngIf="nbOverTime<5" type="button" class="btn btn-pill btn-primary" (click)="addOverTime()">
+                    Ajouter heures supplémentaires
+                  </button>         
+              </div>
+        </form>
+
+        <br>
+
+        <div class="form-group" id="cra-comment">
+            <label for="craComment">Commentaires</label>
+            <textarea name="" class="form-control" id="craComment" rows="5" formControlName="craComment" ></textarea>
+        </div>
+        <div class="form-group">
+            <label for="nbWorkDay">Nombre de jours travailles</label>
+            <input type="number" class="form-control" 
+                    [(ngModel)]="nbWorkDay"
+                    [ngModelOptions]="{standalone: true}"
+                    disabled
+                    id="nbWorkDay" style="width: 80px">
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-6 col-mb-6">
+                <label for="name">Votre Nom</label> 
+                <input type="text" class="form-control" id="name" formControlName="name" style="width: auto">
+                <div *ngIf="craForm.controls.name.invalid && (craForm.controls.name.dirty || craForm.controls.name.touched)">
+                    <p class="text-danger" *ngIf="craForm.controls.name.errors.required">
+                              Champs requis
+                    </p>
+                </div>
+          </div>
+          <div class="col-md-6 col-mb-6">
+                <label>Votre Email</label>
+                <input type="email" class="form-control" id="email" formControlName="email" style="width: auto">
+                <div *ngIf="craForm.controls.email.invalid && (craForm.controls.email.dirty || craForm.controls.email.touched)">
+                    <p class="text-danger" *ngIf="craForm.controls.email.errors.required">
+                              Champs requis
+                    </p>
+                    <p class="alert alert-danger" *ngIf="craForm.controls.email.errors.email">
+                              Format non valid, saisir une adresse email
+                    </p>
+                </div>
           </div>
         </div>
 
         <div class="form-group">
-            <h3 style="color: whitesmoke">Heures supplementaires</h3>
+          <button type="submit" class="btn btn-primary" (click)="onSend()">
+            Envoyer Mon CRA
+          </button>
         </div>
-        <div class="form-group" id="table-overtime">
-          <table class="table">
-            <tbody>
-              <tr>
-                    <td><h4 style="color:whitesmoke">S1</h4></td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW1" 
-                    formControlName="overtimeW1" style="width:80px">
-                  </td>
-                  <td><h4 style="color:whitesmoke">S2</h4></td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW2" 
-                    formControlName="overtimeW2" style="width:80px">
-                  </td>
-              </tr>
-              <tr>
-                  <td><h4 style="color:whitesmoke">S3</h4></td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW3" 
-                    formControlName="overtimeW3" style="width:80px">
-                  </td>
-                  <td><h4 style="color:whitesmoke">S4</h4></td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW4"
-                    formControlName="overtimeW4" style="width:80px">
-                  </td>
-                  <td><h4 style="color:whitesmoke">S5</h4></td>
-                  <td>
-                    <input type="number" class="form-control" id="overtimeW5" 
-                    formControlName="overtimeW5" style="width:80px">
-                  </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="form-group" id="cra-comment">
-            <label for="craComment">Commentaires</label>
-            <textarea name="" class="form-control" id="craComment" rows="2" formControlName="craComment" ></textarea>
-        </div>
-        <div class="form-group" id="div-nbWorkDay">
-            <label for="nbWorkDay">Nombre de jours travailles</label>
-            <input type="number" class="form-control" id="nbWorkDay" style="width: 80px">
-        </div>
+
         <div class="form-group">
-              <label for="name">Votre Nom</label> 
-              <input type="text" class="form-control" id="name" formControlName="name" style="width: auto">
+          <button type="submit" class="btn btn-success" (click)="onSave()" >
+            Valider mon CRA
+          </button>
         </div>
-        <div class="form-group">
-              <label for="email">Votre Email</label>
-              <input type="email" class="form-control" id="email" formControlName="email" style="width: auto">
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success" (click)="dowloadFormToPDFasText()" [disabled]="craForm.invalid" >Envoyer CRA</button>
-        </div>
+
       </form>
     </div>
 </div>

@@ -1,0 +1,96 @@
+<div class="row" id="rhSettingFrom">
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8" 
+        style="background-color:whitesmoke">
+        <form [formGroup]="rhSettingFrom" style="font-family:Lato;">
+
+          <div>
+            <h2>Paramètres Application CRA</h2>
+          </div>
+
+          <div class="form-group">
+            <label for="emailRH">Email du Responsable RH XLM-Services</label>
+            <input class="form-control" type="email" id="emailRH" formControlName="emailRH">
+          </div>
+          
+          <div class="form-group">
+            <label for="currentMonth">Mois en cours</label>
+            <select class="form-control" id="currentMonth" formControlName="currentMonth">
+              <option>Janvier</option>
+              <option>Fevrier</option>
+              <option>Mars</option>
+              <option>Avril</option>
+              <option>Mai</option>
+              <option>Juin</option>
+              <option>Juillet</option>
+              <option>Aout</option>
+              <option>Septembre</option>
+              <option>Octobre</option>
+              <option>Novembre</option>
+              <option>Decembre</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <table>
+              <tr>
+                <th>Mois</th>
+                <th>Nombre de jours ouvrés</th>
+              </tr>
+              <tr>
+                <td>Janvier</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayJan"></td>
+              </tr>
+              <tr>
+                <td>Fevrier</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayFeb"></td>
+              </tr>
+              <tr>
+                <td>March</td>
+                <td><input  class="form-control" type="number" formControlName="nbBusinessDayMar"></td>
+              </tr>
+              <tr>
+                <td>Avril</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayApr"></td>
+              </tr>
+              <tr>
+                <td>Mai</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayMay"></td>
+              </tr>
+              <tr>
+                <td>Juin</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayJun"></td>
+              </tr>
+              <tr>
+                <td>Juillet</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayJul"></td>
+              </tr>
+              <tr>
+                <td>Aout</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayAug"></td>
+              </tr>
+              <tr>
+                <td>Septembre</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDaySep"></td>
+              </tr>
+              <tr>
+                <td>Octobre</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayOct"></td>
+              </tr>
+              <tr>
+                <td>Novembre</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayNov"></td>
+              </tr>
+              <tr>
+                <td>Decembre</td>
+                <td><input class="form-control" type="number" formControlName="nbBusinessDayDec"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" (click)="onSubmit()" >
+              Enregistrer
+            </button>
+          </div>
+        </form>
+  </div>
+</div>

@@ -1,9 +1,17 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, ValidatorFn, FormControl } from '@angular/forms';
 
-export function ValidatePositiveNumber(control: AbstractControl ) {
-    if (control.value >= 0) {
-        return { validPositiveNumber: true };
+export function ValidatePositiveNumber():ValidatorFn {
+    
+    return (control: AbstractControl): {[key: string]: any} | null => {
+        const forbidden = control.value;
+        if (control.value>1){
+            return control.value ? {'forbiddenName': {value: control.value}} : null;
+        }
+      };
+/*
+    if (num.value >= 0) {
+        return { control : AbstractControl};
     }
-    console.log(control.value + ' number is not valid to save CRA from');
-    return null;
+    console.log(num + ' number is not valid to save CRA from');
+    return null;*/
 }

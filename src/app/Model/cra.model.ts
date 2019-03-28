@@ -1,8 +1,14 @@
 import { WeekDay } from '@angular/common';
+import { Overtime } from './overtime.model';
+import { Leave } from './leave.model';
 
 // tslint:disable-next-line:class-name
 export class CRA {
-    pdfFile: string;
+
+    pdfFileUrl: string;
+    csvFileUrl: string;
+    nbWorkDay: number;
+
     constructor(
         public month: string,
         public name: string,
@@ -10,24 +16,17 @@ export class CRA {
         public responsibleEmail : string,
         public email: string,
         public details: string,
+        public annualLeaves: Leave[],
+        public sicknessLeaves: Leave[],
+        public rttLeaves: Leave[],
+        public unpaidLeaves: Leave[],
         public nbAnnualLeave: number,
         public nbUnPaidLeave: number,
         public nbSicknessLeave: number,
         public nbRTT: number,
-        public dateEndAnnualLeave: Date ,
-        public dateBeginAnnualLeave: Date,
-        public dateBeginSicknessLeave: Date,
-        public dateEndSicknessLeave: Date,
-        public dateBeginUnpaidLeave: Date,
-        public dateEndUnpaidLeave: Date,
-        public dateBeginRTT: Date,
-        public dateEndRTT: Date,
-        public overtimeW1: number,
-        public overtimeW2: number,
-        public overtimeW3: number,
-        public overtimeW4: number,
-        public overtimeW5: number,
+        public m_overTime: Overtime,
         public craComment: string,
-        public nbWorkDay: number
+        
     ) {}
+
 }

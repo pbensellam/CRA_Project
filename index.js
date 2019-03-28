@@ -2,6 +2,15 @@ const fs = require('fs');
 const readline = require('readline');
 const {google} = require('googleapis');
 
+/**
+ * 
+// Fonctions Cloud pour le SDK Firebase pour créer des fonctions Cloud et des déclencheurs de configuration. 
+const fonctions  = require( 'firebase-functions' ); 
+// Le SDK d'administration Firebase pour accéder à la base de données en temps réel Firebase. 
+const admin = require ( 'firebase-admin' ); admin . initializeApp ();
+  */
+
+ 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/gmail.readonly'];
 // The file token.json stores the user's access and refresh tokens, and is
