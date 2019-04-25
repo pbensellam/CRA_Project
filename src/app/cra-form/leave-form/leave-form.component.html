@@ -1,0 +1,238 @@
+<div class="row">
+  <div class="col-xs-8 col-sm-12">
+    <button class="list-group-item">
+      <div class="col-xs-8 col-sm-6">
+        <h4>Mes Congés Payés ( {{nbAnnualLeaves}} jours )</h4>
+      </div>
+      <div class="col-xs-8 col-sm-6">
+        <button class="btn btn-success pull-right" (click)="addLeave('Annual')">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+
+      <button class="list-group-item"
+        *ngFor="let annualLeave of annualLeaves; let i = index">
+        <h4>Periode de congés {{i+1}}
+          <button class="btn btn-danger pull-right" (click)="removeLeave('Annual',i)">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
+        </h4>
+        <label for="annualLeave.dateEnd">Début :</label>
+        <input class="form-control" type="date"
+                  [(ngModel)]="annualLeave.dateBegin"
+                  [ngModelOptions]="{standalone: true}">
+
+        <label for="annualLeave.dateEnd">Fin :</label>
+        <input class="form-control" type="date" 
+                  [(ngModel)]="annualLeave.dateEnd"
+                  [ngModelOptions]="{standalone: true}">
+
+        <label for="annualLeave.nbDay">Nombre de jours:</label>
+        <input class="form-control" type="number"
+                  pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                  [(ngModel)]="annualLeave.nbDay"
+                  [ngModelOptions]="{standalone: true}"
+                  (ngModelChange) = "countTotalLeaves()">
+        <div *ngIf="annualLeave.nbDay < 0" 
+                  class="text-danger">
+                      Nombre de jour invalide
+        </div>
+      </button>
+    </button>
+  </div>
+</div>
+
+  <br>
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12">
+    <button class="list-group-item">
+      <h4>Mes RTT ( {{nbRttLeaves}} jours )</h4>
+      <button class="btn btn-primary" (click)="addLeave('RTT')">
+            Ajouter une periode de RTT
+      </button>
+
+      <button class="list-group-item"
+        *ngFor="let rttLeave of rttLeaves; let i = index">
+        
+        <div class="col-xs-8 col-sm-12">
+        <h4>Periode de RTT n°{{i+1}}
+            <button class="btn btn-danger pull-right" (click)="removeLeave('RTT',i)">
+                <span class="glyphicon glyphicon-minus"></span>
+            </button>
+        </h4>
+        </div>
+
+        <div class="col-xs-8 col-sm-6">
+          <label for="rttLeave.dateEnd">Début :</label>
+          <input class="form-control" type="date"
+                    [(ngModel)]="rttLeave.dateBegin"
+                    [ngModelOptions]="{standalone: true}">
+        </div>
+
+        <div class="col-xs-8 col-sm-6">
+          <label for="rttLeave.dateEnd">Fin :</label>
+          <input class="form-control" type="date" 
+                    [(ngModel)]="rttLeave.dateEnd"
+                    [ngModelOptions]="{standalone: true}">
+        </div>
+
+        <div class="col-xs-8 col-sm-3">
+          <label for="rttLeave.nbDay">Nombre de jours:</label>
+          <input class="form-control" type="number"
+                    pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                    [(ngModel)]="rttLeave.nbDay"
+                    [ngModelOptions]="{standalone: true}"
+                    (ngModelChange) = "countTotalLeaves()">
+          <div *ngIf="rttLeave.nbDay < 0" class="text-danger">
+                        Nombre de jour invalide
+          </div>
+        </div>
+
+      </button>        
+    </button>
+  </div>
+</div> 
+
+<br>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <button class="list-group-item">
+        <h4>Mes Congés Exceptionnels ( {{nbExceptionnalLeaves}} jours )</h4>
+        <button class="btn btn-primary" (click)="addLeave('Exceptional')">
+              Ajouter une periode congé exceptionnel
+        </button>
+  
+        <button class="list-group-item"
+          *ngFor="let exceptionnalLeave of exceptionnalLeaves; let i = index">
+          <div class="col-xs-8 col-sm-12">
+            <h4>Periode de Congé Exceptionnel n°{{i+1}}
+                <button class="btn btn-danger pull-right" (click)="removeLeave('Exceptional',i)">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </button>
+            </h4>
+          </div>
+          <div class="col-xs-8 col-sm-12">
+            <label for="leave.comment" >Justificatif</label>
+            <textarea name="" class="form-control" rows="5" ></textarea>
+          </div>
+          
+          <div class="col-xs-8 col-sm-6">
+            <label for="exceptionnalLeave.dateEnd">Début :</label>
+            <input class="form-control" type="date"
+                      [(ngModel)]="exceptionnalLeave.dateBegin"
+                      [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="col-xs-8 col-sm-6">
+            <label for="exceptionnalLeave.dateEnd">Fin :</label>
+            <input class="form-control" type="date" 
+                      [(ngModel)]="exceptionnalLeave.dateEnd"
+                      [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="col-xs-8 col-sm-3">
+            <label for="exceptionnalLeave.nbDay">Nombre de jours:</label>
+            <input class="form-control" type="number"
+                      pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                      [(ngModel)]="exceptionnalLeave.nbDay"
+                      [ngModelOptions]="{standalone: true}"
+                      (ngModelChange) = "countTotalLeaves()">
+
+          </div>
+  
+        </button>
+      </button>
+    </div>
+  </div> 
+
+  <br>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <button class="list-group-item">
+
+          <h4>Mes Congés Sans Solde ( {{nbUnpaidLeaves}} jours )</h4>
+          <button class="btn btn-primary" (click)="addLeave('Unpaid')">
+                Ajouter une période de congé sans solde
+          </button>
+    
+          <button class="list-group-item"
+            *ngFor="let leave of unpaidLeaves; let i = index">
+            <div class="col-xs-8 col-sm-12">
+              <h4>Periode de Congé Sans Solde n°{{i+1}}
+                  <button class="btn btn-danger pull-right" (click)="removeLeave('Unpaid',i)">
+                      <span class="glyphicon glyphicon-minus"></span>
+                  </button>
+              </h4>
+            </div>
+            <div class="col-xs-8 col-sm-6">
+              <label for="leave.dateEnd">Début :</label>
+              <input class="form-control" type="date"
+                        [(ngModel)]="leave.dateBegin"
+                        [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="col-xs-8 col-sm-6">
+              <label for="leave.dateEnd">Fin :</label>
+              <input class="form-control" type="date" 
+                        [(ngModel)]="leave.dateEnd"
+                        [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="col-xs-8 col-sm-3">
+              <label for="leave.nbDay">Nombre de jours:</label>
+              <input class="form-control" type="number"
+                        pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                        [(ngModel)]="leave.nbDay"
+                        [ngModelOptions]="{standalone: true}"
+                        (ngModelChange) = "countTotalLeaves()">
+            </div>
+    
+          </button>
+      </button>        
+    </div>
+  </div> 
+
+  <br>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <button class="list-group-item">
+          <h4>Mes Congés Maladie ( {{nbSicknessLeaves}} jours )</h4>
+          <button class="btn btn-primary" (click)="addLeave('Sickness')">
+                Ajouter une periode de congé maladie
+          </button>
+    
+          <button class="list-group-item"
+            *ngFor="let leave of sickenessLeaves; let i = index">
+            <div class="col-xs-8 col-sm-12">
+            <h4>Periode de Congé Maladie n°{{i+1}}
+                <button class="btn btn-danger pull-right" (click)="removeLeave('Sickness',i)">
+                    <span class="glyphicon glyphicon-minus"></span>
+                </button>
+            </h4>
+            </div>
+            <div class="col-xs-8 col-sm-6">
+              <label for="leave.dateEnd">Début :</label>
+              <input class="form-control" type="date"
+                        [(ngModel)]="leave.dateBegin"
+                        [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="col-xs-8 col-sm-6">
+              <label for="leave.dateEnd">Fin :</label>
+              <input class="form-control" type="date" 
+                        [(ngModel)]="leave.dateEnd"
+                        [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="col-xs-8 col-sm-3">
+              <label for="leave.nbDay">Nombre de jours:</label>
+              <input class="form-control" type="number"
+                        pattern="[+]?[0-9]+(\.[0-9]+)?([eE][+]?[0-9]+)?" 
+                        [(ngModel)]="leave.nbDay"
+                        [ngModelOptions]="{standalone: true}"
+                        (ngModelChange) = "countTotalLeaves()">
+            </div>
+    
+          </button>
+      </button>
+    </div>
+  </div> 
+  <br>

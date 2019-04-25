@@ -7,9 +7,11 @@ export class Leave{
     
     private _dateEnd: Date;
     
-    private _nbDay: number;
+    private _nbDay: number=0;
     
     private _leaveType: string;
+    
+    private _comment: string;
     
 
     constructor(){
@@ -42,6 +44,12 @@ export class Leave{
         this._leaveType = value;
     }
 
+    public get comment(): string {
+        return this._comment;
+    }
+    public set comment(value: string) {
+        this._comment = value;
+    }
     /**
      * ToString Methode d'un congé:
      * X jours pris entre le &datedébut et &datefin 

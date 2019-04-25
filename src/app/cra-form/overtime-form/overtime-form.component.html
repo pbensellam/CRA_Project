@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="col-xs-8 col-sm-12">
+    <button class="list-group-item">
+      <h4>Déclaration des élements variants</h4>
+      <button class="btn btn-primary" (click)="addOvertimePeriod()">
+            Ajouter Element Variant (non contractuel)
+      </button>
+
+      <button class="list-group-item"
+              *ngFor="let overtime of allOverime; let i = index">
+
+              <div class="col-xs-8 col-sm-12">
+                <h4>Element Variant n°{{i+1}}
+                    <button class="btn btn-danger pull-right" (click)="removeOvertimePeriod(i)">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                </h4>
+              </div>
+
+              <div class="col-xs-8 col-sm-4">
+                  <label for="overtime.day">Date: </label>
+                  <input class="form-control" type="date"
+                            [(ngModel)]="overtime.day"
+                            [ngModelOptions]="{standalone: true}">
+              </div>
+
+              <div class="col-xs-8 col-sm-4">
+                  <label for="overtime.value">Nombre d'heure: </label>
+                  <input class="form-control" type="number"
+                            [(ngModel)]="overtime.value"
+                            [ngModelOptions]="{standalone: true}"
+                            (ngModelChange) = "countOvertime()">
+              </div>
+
+              <div class="col-xs-8 col-sm-4">
+                  <label>Type: </label>
+                  <select class="form-control" 
+                          [(ngModel)]="overtime.type"
+                          (ngModelChange) = "countOvertime()">
+                      <option *ngFor="let item of overtimeTypes">{{item}} </option>
+                  </select>
+              </div>
+
+      </button>
+      
+      <button class="list-group-item"
+              *ngIf="nbOvertimeTotal > 1">
+              
+              <label for="overtime.day">Total Heures supplémentaires: </label>
+              <input class="form-control" type="number"
+                            [(ngModel)]="nbOvertimeTotal"
+                            [ngModelOptions]="{standalone: true}"
+                            disabled>
+
+              <div *ngIf="nbOvertime1 > 0">
+                <label for="overtime.day">Total Heures supplémentaires: </label>
+                <input class="form-control" type="number"
+                              [(ngModel)]="nbOvertime1"
+                              [ngModelOptions]="{standalone: true}"
+                              disabled>
+              </div>
+              <div *ngIf="nbOvertime2 > 0">              
+                <label for="overtime.day">Total VSD: </label>
+                <input class="form-control" type="number"
+                              [(ngModel)]="nbOvertime2"
+                              [ngModelOptions]="{standalone: true}"
+                              disabled>
+              </div>
+              <div *ngIf="nbOvertime3 > 0">
+                <label for="overtime.day">Total Astreinte: </label>
+                <input class="form-control" type="number"
+                              [(ngModel)]="nbOvertime3"
+                              [ngModelOptions]="{standalone: true}"
+                              disabled>
+              </div>
+        
+              <div *ngIf="nbOvertime4 > 0">
+                <label for="overtime.day">Total Astreinte avec déplacement: </label>
+                <input class="form-control" type="number"
+                              [(ngModel)]="nbOvertime4"
+                              [ngModelOptions]="{standalone: true}"
+                              disabled>
+              </div>
+
+              <div *ngIf="nbOvertime5 > 0">
+                <label for="overtime.value">Total Heures de nuit: </label>
+                <input class="form-control" type="number"
+                              [(ngModel)]="nbOvertime5"
+                              [ngModelOptions]="{standalone: true}"
+                              disabled>
+              </div>
+
+      </button>
+    </button>
+  </div>
+</div>
+
+

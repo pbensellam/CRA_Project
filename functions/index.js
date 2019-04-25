@@ -36,6 +36,7 @@ const nodemailer = require('nodemailer');
  * 
  */
 
+/*
 exports.sendMailFromCraDb = 
   functions.database.ref('/cra/{pushId}/').onCreate((snapshot, context) => {
     const data = snapshot.val();
@@ -49,10 +50,10 @@ exports.sendMailFromCraDb =
       }
     );
   });
-
+*/
 
 function sendCloudMail(data, rhSettings) {
-  
+
     console.log('sendCloudMail sending email from xlm.services.cra@gmail.com to XLM RH: '+ rhSettings.emailRH);
     const mailTransport = nodemailer.createTransport({
       host: 'smtp.gmail.com',
@@ -79,17 +80,8 @@ function sendCloudMail(data, rhSettings) {
       // html: '<h1>Hello ! </h1><p>' + data.message + '</p><p>The mail has been sent from Node.js application!</p>',
       html: '<p>Bonjour,</p><p>'+
       data.name +' vient de valider son compte-rendu d\'activité depuis l\'application en ligne CRA.' +
-      +'Veuillez trouver ci-joint le CRA en verison PDF et CSV de ' + data.name + ' pour le mois de ' + data.month + '</p><p>Cordialement,</p><p>XLM-Services.CRA</p>',
-      attachments: [
-      {   // use URL as an attachment
-          filename:'craPdf.pdf',
-          path: data.pdfFileUrl
-      },
-      {
-        filename: 'cra' + data.name +'.csv',
-        path: data.csvFileUrl
-      }
-      ]
+      'Veuillez trouver ci-joint le CRA en verison PDF et CSV de ' + data.name + ' pour le mois de ' + data.month + '</p><p>Cordialement,</p><p>XLM-Services.CRA</p>',
+      attachments: att
     };
 
     // verify connection configuration
@@ -113,3 +105,16 @@ function sendCloudMail(data, rhSettings) {
     });
 
 }
+
+/*exports.sendMonthlyReminder = 
+    functions.database.ref('/rhSettings/{currentMonth}/').onUpdate((change, context)=>{
+      var db = admin.database();
+      var ref = db.ref('/rhSettings');
+      ref.on("value", function(snapshot){
+        const rhSettings = snapshot.val();
+        return sendReminder(rhSettings);
+      },function(errorObject){
+        console.log("The read failed: " + errorObject.code);
+      });
+    });
+*/

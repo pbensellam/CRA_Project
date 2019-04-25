@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { RHSettingService } from '../Service/rhSetting.service';
 import { RhSetting } from '../Model/rhSetting.model';
 import { Subscription } from 'rxjs';
-import { mapChildrenIntoArray } from '@angular/router/src/url_tree';
 
 @Component({
   selector: 'app-rh-setting',
@@ -17,6 +16,7 @@ export class RhSettingComponent implements OnInit {
   rhSettings: RhSetting;
   rhSettingFrom: FormGroup;
   rhSettingSubcribtion:Subscription;
+  initialMonth:string;
 
   constructor(
     private formBuilder:FormBuilder,
@@ -56,6 +56,7 @@ export class RhSettingComponent implements OnInit {
     this.rhSettingSubcribtion=this.rhService.rhSettingSubject.subscribe(
       (rhSettings: RhSetting)=> {
         this.rhSettings = rhSettings;
+        this.initialMonth = this.rhSettings.currentMonth;
         console.log(this.rhSettings.emailRH);
         this.rhSettingFrom=this.formBuilder.group(
           {
@@ -85,9 +86,16 @@ export class RhSettingComponent implements OnInit {
   }
 
   onSubmit(){
-    const plan = new Map();
-    
     const formValue = this.rhSettingFrom.value;
+    const subject="Ouverture%20des%20CRA%20"+ formValue['currentMonth']+"%20";
+    
+    //console.log(formValue['currentMonth']); 
+    //console.log(this.initialMonth); 
+
+    if (formValue['currentMonth'] != this.initialMonth){
+      window.location.href="mailto:?subject=Ouverture%20des%20CRA%20"+ formValue['currentMonth'] +"&body=";
+    }
+    
     const newRhSetting= new RhSetting(
       formValue['currentMonth'],
       formValue['emailRH'],
