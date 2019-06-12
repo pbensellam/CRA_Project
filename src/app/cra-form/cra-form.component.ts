@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ElementRef, AfterViewInit, NgModule } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CraService } from '../Service/cra.service';
@@ -18,6 +18,7 @@ import { FileUtil } from '../file.util';
 import { AngularCsv } from 'angular7-csv/dist/Angular-csv'
 import { Papa } from 'ngx-papaparse';
 import { isUndefined } from 'util';
+import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 
 @Component({
   selector: 'app-cra-form',
@@ -105,6 +106,15 @@ export class CRAFormComponent implements OnInit {
       }
     );
 
+    this.overtimeService.otSubject.subscribe(
+      (overtimeData)=>
+      {
+        this.allOvertime = overtimeData;
+      },
+      (error)=>{
+        console.log('Erreur avec la souscription des données overtime' + error);
+      }
+    );
 
   }
 
@@ -140,13 +150,13 @@ export class CRAFormComponent implements OnInit {
     //console.log (this.isFormValid);
     //this.CreateCSVfileFromFormData();
     //this.saveDataInCSVFile();
-    this.CreateMailWithDefaultApp();
     //this.dowloadFormToPDFasText();
     //window.print();
-
+    this.CreateMailWithDefaultApp();
     //this.isFormValid = true;
     //console.log (this.isFormValid);
   }
+
   onSave(){
 
     /** 
@@ -205,7 +215,6 @@ export class CRAFormComponent implements OnInit {
         this.craService.uploadCsvFile(this.csvFile, 'CRA.csv').then(
           (url:string)=>{
             this.fileUpdloaded = true;
-            //this.csvFileUrl = url;
             newCra.csvFileUrl = url;
             console.log("CVS saved here : "+ url);
   /*
@@ -257,37 +266,10 @@ export class CRAFormComponent implements OnInit {
   //this.router.navigate(['app-home']);
   } 
 
-  getCRAFormData(){
-    return new Promise((resolve, reject)=>{
-      this.overtimeService.otSubject.subscribe(
-        (overtimeData)=>
-        {
-          this.allOvertime = overtimeData;
-          this.leaveService.currentLeaveData.subscribe(
-              (leaves) => {
-                resolve(this.allLeaves = leaves);
-              },
-              error => {
-                reject(console.log('Erreur lors de la souscription au service congés' + error));
-              }
-          );
-        },
-        (error)=>{
-          reject(console.log('Erreur avec la souscription des données overtime' + error));
-        }
-      );
-    });
-
-  }
-
- 
-
   createCRAfromForm():CRA{
 
     const formValue = this.craForm.value;
     
-    //this.getCurrentLeavesData();
-    //this.getCurrentOvertimesData();
     this.leaveService.currentLeaveData.subscribe(
       (leaves) => {
         this.allLeaves = leaves;
@@ -322,6 +304,7 @@ export class CRAFormComponent implements OnInit {
             formValue['craComment'],
     );
     return newCra;
+    
   }
 
   countNbWorkedDay(){
@@ -414,18 +397,15 @@ export class CRAFormComponent implements OnInit {
 
   CreateMailWithDefaultApp(){
     /** 
-     * Permet d'envoyer sous forme de mail des données du formulaire
+     * Permet de creer un mail avec les des données du formulaire
      *  ces données pourront être ouverte avec l'application de mail utilisée par défaut par l'utilisateur
       */
-        //this.dowloadFormToPDFasText();
         const mCRA = this.createCRAfromForm();
         const formValue = this.craForm.value;
-        //console.log(mCRA.overtimes);
         //console.log(mCRA.countOvertime());
-
+/** 
         const body="Bonjour,"
         +"Veuillez-trouver ci dessous le compte rendu de mon activité mensuelle chez le client TBD."
-        + "br/"
         + "Nom Responsable:"
         + "Email: Responsable client: "
         + "Congés:" 
@@ -436,22 +416,26 @@ export class CRAFormComponent implements OnInit {
         + "Nombre de jours ouvrés: "
         + "Nombre de jours travaillés:"
         + "Bien cordialement,";
-    
+        //console.log(encodeURI(body));
+  */
         const body2="Veuillez-trouver%20ci%20dessous%20le%20compte%20rendu%20de%20mon%20activit%C3%A9%20mensuelle%20chez%20le%20client%20"+ formValue['company']+
-        ".%0A%0ANom%20Responsable%3A%20"+ mCRA.responsibleName+
-        "%0AEmail%3A%20" + mCRA.responsibleEmail+ 
-        "%0ACong%C3%A9s%3A%20" + mCRA.countLeavebyType("Annual") +
+        ".%0A%0AEntreprise%3A%20"+ mCRA.company +
+        "%0ANom%20Responsable%3A%20"+ mCRA.responsibleName +
+        "%0AEmail%3A%20" + mCRA.responsibleEmail + 
+        "%0A%0ACong%C3%A9s%3A%20" + mCRA.countLeavebyType("Annual") +
         "%0ACSS%3A%20" + mCRA.countLeavebyType('Unpaid') +
         "%0ARTT%3A%20" + mCRA.countLeavebyType('RTT') +
         "%0ACong%C3%A9s%20Exceptionnels%3A%20" + mCRA.countLeavebyType("Exceptional") +
         "%0ACong%C3%A9s%20maladie%3A%20" + mCRA.countLeavebyType('Sickness') + 
-        "%0AHeures%20suppl%C3%A9mentaires%3A%20" + mCRA.countOvertime() +
-        "%0ANombre%20de%20jours%20ouvr%C3%A9s%3A%20"+ this.nbBusinessDay +
-        "%0ANombre%20de%20jours%20travaill%C3%A9s%3A" + (this.nbBusinessDay - mCRA.countLeaves()) + "%0ABien%20cordialement%2C%0A";
+        "%0A%0AHeures%20suppl%C3%A9mentaires%3A%20" + mCRA.countOvertime() +
+        "%0A%0ANombre%20de%20jours%20ouvr%C3%A9s%3A%20"+ this.nbBusinessDay +
+        "%0ANombre%20de%20jours%20travaill%C3%A9s%3A" + (this.nbBusinessDay - mCRA.countLeaves()) + 
+        "%0A%0AMes%20Commentaires%3A%0A" + mCRA.craComment + 
+        "%0A%0ABien%20cordialement%2C%0A";
         
         //const formValue = this.craForm.value;
         window.location.href="mailto:" + this.rhSetting.emailRH + "?subject=CRA%20%5BPensez%20%C3%A0%20Ajouter%20les%20pieces%20jointes%5D&amp&body="+body2;
-        
+        //window.location.href="mailto:" + this.rhSetting.emailRH + ".subject=CRA&body="+body2;
     }
 
   CreateCSVfileFromFormData(){
@@ -531,7 +515,6 @@ export class CRAFormComponent implements OnInit {
  * donc ici on chercher simplement à modifier l'object @this csvFile
  */
     const mCRA = this.createCRAfromForm();
-
     //const formValue = this.craForm.value;
     
     const strHeader = 'Mois, Nom Consultant, Email, Nom Responsable, EmailResponsable,'
@@ -567,6 +550,8 @@ export class CRAFormComponent implements OnInit {
     /**
      * Récapitule dans une fichier PDF les données saisies par l'utilisateur dans le formulaire
      */
+    const mCRA = this.createCRAfromForm();
+    console.log(mCRA);
     const formValue = this.craForm.value;
     const pipe = new DatePipe('en-FR');
     const now = Date.now();
@@ -583,118 +568,74 @@ export class CRAFormComponent implements OnInit {
 
 //Titre du document: CRA mois nom du consultant en taille 18
     docPDF.setFontSize(18);
-    const title = 'Compte-Rendu d'+"'"+'Avancement Mensuel \n' + this.month + ' ' + formValue['name'];
+    const title = 'Compte-Rendu d'+"'"+'Avancement Mensuel \n' + this.month + ' ' + mCRA.name;
     docPDF.text(title, 105, iRow,null,null,'center');
     
     iRow=iRow+20;
 
 // Information sur les responsable client:
     docPDF.setFontSize(10);
-    const responsibleInfo = 'Responsable client: ' + formValue['responsibleName']+ '\n' + ' Email: ' + formValue['responsibleEmail'];
+    const responsibleInfo = 'Entreprise: '+ mCRA.company 
+                            +'\nResponsable client: ' + mCRA.responsibleName 
+                            + '\n' + ' Email: ' + mCRA.responsibleEmail;
+
     docPDF.text(responsibleInfo, 20, iRow);
 
-    iRow=iRow+10;
+    iRow=iRow+20;
 
 // Information sur le consultant:
-    const consultantInfo = 'Consultant: ' + formValue['name'] + '\n' + ' Email: ' + formValue['email'] ;
+    const consultantInfo = 'Consultant: ' + mCRA.name + '\n' + ' Email: ' + mCRA.email;
     docPDF.text(consultantInfo, 20, iRow);
 
-    iRow=iRow+10;
+    iRow=iRow+20;
 
-// Congés Annuels:
-    docPDF.text('Congés Annuels :',20, iRow); 
+// Congés:
+    docPDF.text('Congés :',20, iRow); 
     iRow=iRow+5;
-    let i = 0;
-    //docPDF.text(annualLeaveToString, 20, 50 + this.annualLeaves.length*10);
-    this.annualLeaves.forEach(element => {
-      var annualLeaveToString = 
-                          element.nbDay + ' jour(s) pris entre le ' + 
-                          element.dateBegin + ' et le '+ 
-                          element.dateEnd;
-      //console.log(annualLeaveToString);
-      docPDF.text(annualLeaveToString,20,iRow+i);
-        i=i+5;
+    //let i = 0;
+    var annualLeaveToString = '';
+    mCRA.leavesArray.forEach(leaves =>{
+      if (leaves.length =! 0){
+        leaves.forEach(leave => {
+          console.log(leave);
+          let annualLeaveToString = leave.leaveType + ': ' + leave.nbDay + ' jour(s) pris entre le ' + 
+                                leave.dateBegin + ' et le '+ 
+                                leave.dateEnd;
+          docPDF.text(annualLeaveToString,20,iRow);
+          iRow=iRow+5;
+        });
+      }
     });
 
-    if (this.annualLeaves.length >0 ){
-      iRow=iRow+10;
+    if (annualLeaveToString==''){
+      docPDF.text('(Aucun à déclarer)',20, iRow); 
     }
-
-// Congés Sans Solde:
-    docPDF.text('Congés Sans Solde :',20, iRow); 
-    
-    if (this.unpaidLeaves.length == 0 ){
-      iRow=iRow+5;
-      docPDF.text('Aucun à déclarer',40 , iRow); 
-    }
-
-    iRow=iRow+5;
-    i = 0;
-    this.allLeaves.forEach(element => {
-        if (element.leaveType ='Unpaid'){
-            var unpaidLeaveToString = 
-                                element.nbDay + ' jour(s) pris entre le ' + 
-                                element.dateBegin + ' et le '+ 
-                                element.dateEnd + '\n';
-            //console.log(unpaidLeaveToString);
-            docPDF.text(unpaidLeaveToString,20,iRow+i);
-              i=i+5;
-        }
-    });
-
-    if (this.unpaidLeaves.length >0 ){
-      iRow=iRow+10;
-    }
-
-// Congés Maladie:
-    docPDF.text('Congés Maladie :',20, iRow); 
     iRow=iRow+10;
-    i = 0;
-    this.sickenessLeaves.forEach(element => {
-      var sicknessLeaveToString = 
-                          element.nbDay + ' jour(s) pris entre le ' + 
-                          element.dateBegin + ' et le '+ 
-                          element.dateEnd + '\n';
-      //console.log(sicknessLeaveToString);
-      docPDF.text(sicknessLeaveToString,20,iRow+i);
-        i=i+5;
-    });
-
-    if (this.sickenessLeaves.length >0 ){
-      iRow=iRow+10;
-    }
-
-// RTT:
-    docPDF.text('RTT :',20, iRow); 
-    iRow=iRow+10;
-    i = 0;
-    this.rttLeaves.forEach(element => {
-      var rttLeaveToString = 
-                          element.nbDay + ' jour(s) pris entre le ' + 
-                          element.dateBegin + ' et le '+ 
-                          element.dateEnd + '\n';
-      //console.log(rttLeaveToString);
-      docPDF.text(rttLeaveToString,20,iRow+i);
-        i=i+5;
-    });
-
-    if (this.rttLeaves.length >0 ){
-      iRow=iRow+10;
-    }
 //Heures Supplémentaires:
+    docPDF.text('Eléments variants :',20, iRow); 
+    iRow=iRow+5;
+    //i = 0;
+    mCRA.overtimes.forEach(overtime=>{
+      var overtimeToString = overtime.type + ': ' + overtime.value + ' le ' + overtime.day;
+      docPDF.text(overtimeToString,20,iRow);
+      iRow=iRow+5;
+    })
 
+    if (mCRA.overtimes.length == 0 ){
+      docPDF.text('(Aucun à déclarer)',20, iRow); 
+    }
+    iRow=iRow+10;
 // Nombre de jour travaillé vs nombre de jour ouvrés:
     docPDF.setFontType('bold');
-    const nbWorkDay = 'Nombre de jour travaillé : ' + this.nbWorkDay;
-    docPDF.text('Nombre de jour ouvré: '+this.nbBusinessDay, 20, iRow);
+    docPDF.text('Nombre de jour ouvré: '+ this.nbBusinessDay, 20, iRow);
     iRow=iRow+5;
-    docPDF.text(nbWorkDay,20, iRow);
+    docPDF.text( 'Nombre de jour travaillé : ' + this.nbWorkDay,20, iRow);
 
     iRow=iRow+10;
 
 // Ajout du commentaire:
     docPDF.setFontType('regular');
-    let arrayComment = docPDF.splitTextToSize(formValue['craComment'],180);
+    let arrayComment = docPDF.splitTextToSize(mCRA.craComment,180);
 
     if (iRow + arrayComment.length*5 > 275){
       docPDF.addPage();
@@ -703,7 +644,7 @@ export class CRAFormComponent implements OnInit {
       docPDF.text(signature, 100, 277);
     }
 
-    i = 0;
+    let i = 0;
     docPDF.text('Commentaires: \n',20,iRow);
     iRow=iRow+10;
     arrayComment.forEach(element => {
@@ -713,7 +654,7 @@ export class CRAFormComponent implements OnInit {
     
 // Page dédiée au détail de la mission:
     docPDF.addPage();
-    const details = 'Détail Mission: \n ' + formValue['details'];
+    const details = 'Détail Mission: \n ' + mCRA.details;
     i=0;
     let arrDetail = docPDF.splitTextToSize(details,180);
     arrDetail.forEach(element => {
@@ -727,7 +668,7 @@ export class CRAFormComponent implements OnInit {
 
 // Set le nom du document et le télécharge:
 
-    const docName='cra_'+ formValue['name'] +'_'+  myFormattedDate + '.pdf';
+    const docName='cra_'+ mCRA.name +'_'+  myFormattedDate + '.pdf';
     this.pdfBlob = docPDF.output('blob');
     docPDF.save(docName);
 
@@ -754,7 +695,7 @@ export class CRAFormComponent implements OnInit {
     return arr;
   }
 
-
+/*
   getCurrentOvertimesData(){
       
     this.overtimeService.otSubject.subscribe(
@@ -769,7 +710,28 @@ export class CRAFormComponent implements OnInit {
     }
   );
 }
+getCRAFormData(){
+    return new Promise((resolve, reject)=>{
+      this.overtimeService.otSubject.subscribe(
+        (overtimeData)=>
+        {
+          this.allOvertime = overtimeData;
+          this.leaveService.currentLeaveData.subscribe(
+              (leaves) => {
+                resolve(this.allLeaves = leaves);
+              },
+              error => {
+                reject(console.log('Erreur lors de la souscription au service congés' + error));
+              }
+          );
+        },
+        (error)=>{
+          reject(console.log('Erreur avec la souscription des données overtime' + error));
+        }
+      );
+    });
 
+  }
 getCurrentLeavesData(){
   this.leaveService.currentLeaveData.subscribe(
     (leaves) => {
@@ -780,6 +742,7 @@ getCurrentLeavesData(){
     }
 );
 }
+*/
 
 /** ! NO USED ANYMORE ! */
 /*

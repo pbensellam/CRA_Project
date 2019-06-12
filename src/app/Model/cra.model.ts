@@ -89,7 +89,7 @@ export class CRA {
     public countOvertime():number {
         var count = 0
             this.overtimes.forEach(overtime => {
-                console.log(overtime);
+                //console.log(overtime);
                 count = count + overtime.value;         
             });
             return count;

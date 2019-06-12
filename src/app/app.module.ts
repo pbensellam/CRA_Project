@@ -16,6 +16,7 @@ import { LeaveFormComponent } from './cra-form/leave-form/leave-form.component';
 import { OvertimeFormComponent } from './cra-form/overtime-form/overtime-form.component';
 import { PrintLayoutComponent } from './print-layout/print-layout.component';
 import { PapaParseModule } from 'ngx-papaparse';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const appRoutes: Routes = [
   {path : 'app-cra-form', component: CRAFormComponent},
@@ -51,7 +52,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     AppRoutingModule,
     RouterModule.forRoot(appRoutes),
-    PapaParseModule
+    PapaParseModule,
+    BrowserAnimationsModule
   ],
   providers: [CraService,MailService],
   bootstrap: [AppComponent]

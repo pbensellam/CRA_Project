@@ -1,6 +1,6 @@
 export class Overtime{
 
-    private _day: number; // numéro du jour 
+    private _day: Date; // date du jour
     private _value: number; // nombre de d'heure supplémentaire 
     private _type: string; // 5 type d'heure supp possible 
 
@@ -12,10 +12,10 @@ export class Overtime{
     public set type(value: string) {
         this._type = value;
     }
-    public get day(): number {
+    public get day(): Date {
         return this._day;
     }
-    public set day(value: number) {
+    public set day(value: Date) {
         this._day = value;
     }
     public get value(): number {
